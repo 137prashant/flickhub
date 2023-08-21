@@ -19,6 +19,30 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  const controlNavbar = () => {
+    if (window.scrollY > 200) {
+      if (window.scrollY > lastScrollY && !mobileMenu) {
+        setShow("hide");
+      } else {
+        setShow("show");
+      }
+      setLastScrollY(window.scrollY);
+    } else {
+      setShow("top");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", controlNavbar);
+    return () => {
+      window.removeEventListener("scroll", controlNavbar);
+    };
+  });
+
   const openSearch = () => {
     setMobileMenu(false);
     setShowSearch(true);
@@ -46,6 +70,7 @@ function Header() {
     }
     setMobileMenu(false);
   };
+
   return (
     <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
       <ContentWrapper>
@@ -60,7 +85,7 @@ function Header() {
             TV Show
           </li>
           <li className="menuItem">
-            <HiOutlineSearch  onClick={openSearch} />
+            <HiOutlineSearch onClick={openSearch} />
           </li>
         </ul>
         <div className="mobileMenuItems">

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
 import { useSelector } from "react-redux";
 
-import Img from "../../../components/lazyLoadImage/img";
+import Img from "../../../components/lazyLoadImage/img" ;
 import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 
 function HeroBanner() {
@@ -36,14 +36,12 @@ function HeroBanner() {
           <Img src={background} />
         </div>
       )}
-      <div className="opacity-layer">
-        
-      </div>
+      <div className="opacity-layer"></div>
       <ContentWrapper>
         <div className="heroBannerContent">
           <span className="title">Welcome.</span>
           <span className="subTitle">
-            Millions of movies, TV shows and people to discover. Explore how.
+            Millions of movies, TV shows and people to discover. Explore now.
           </span>
           <div className="searchInput">
             <input
