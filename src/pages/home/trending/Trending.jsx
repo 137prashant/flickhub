@@ -4,7 +4,7 @@ import SwitchBtn from "../../../components/switchbtn/SwitchBtn";
 import useFetch from "../../../hooks/useFetch";
 import Carousel from "../../../components/carousel/carousel";
 
-function Tranding() {
+function Trending() {
   const [endpoint, setEndpoint] = useState("day");
 
   const { data, loading } = useFetch(`/trending/all/${endpoint}`);
@@ -15,7 +15,7 @@ function Tranding() {
   return (
     <div className="carouselSection">
       <ContentWrapper>
-        <span className="carouselTitle">Tranding</span>
+        <span className="carouselTitle">Trending</span>
         <SwitchBtn data={["Day", "Week"]} onTabChange={onTabChange} />
       </ContentWrapper>
       <Carousel data={data?.results} loading={loading} />
@@ -23,4 +23,4 @@ function Tranding() {
   );
 }
 
-export default Tranding;
+export default Trending;

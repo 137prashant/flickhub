@@ -18,7 +18,7 @@ function TopRated() {
         <span className="carouselTitle">Top Rated</span>
         <SwitchBtn data={["Movies", "TV Shows"]} onTabChange={onTabChange} />
       </ContentWrapper>
-      <Carousel data={data?.results} loading={loading} />
+      <Carousel data={data?.results} loading={loading} endpoint={endpoint} />
     </div>
   );
 }
