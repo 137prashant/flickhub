@@ -12,8 +12,9 @@ import CircleRating from "../../../components/circleRating/CircleRating";
 import Img from "../../../components/lazyLoadImage/Img.jsx";
 import PosterFallback from "../../../assets/no-poster.png";
 import { Playbtn } from "../playbtn";
+import VideoPopup from "../../../components/videoPopup/VideoPopup";
 
-const DetailsBanner = () => {
+const DetailsBanner = ({ video, crew }) => {
   const { mediaType, id } = useParams();
   const { data, loading } = useFetch(`/${mediaType}/${id}`);
 
@@ -21,11 +22,20 @@ const DetailsBanner = () => {
 
   const _genres = data?.genres?.map((g) => g.id);
 
+  const director = crew?.filter((f) => f.job === "Director");
+
+  const writer = crew?.filter(
+    (f) => f.job === "Screenplay" || f.job === "Story" || f.job === "Writter"
+  );
+
   const toHoursAndMinutes = (totalMinutes) => {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     return `${hours}h${minutes > 0 ? ` ${minutes}m` : ""}`;
   };
+
+  const [show, setShow] = useState(false);
+  const [videoId, setVideoId] = useState(null);
 
   return (
     <div className="detailsBanner">
@@ -58,7 +68,10 @@ const DetailsBanner = () => {
                 <Genres data={_genres} />
                 <div className="row">
                   <CircleRating rating={data?.vote_average.toFixed(1)} />
-                  <div className="playbtn">
+                  <div className="playbtn" onClick={()=>{
+                    setShow(true)
+                    setVideoId(video.key)
+                  }}>
                     <Playbtn />
                     <span className="text">Watch Trailer</span>
                   </div>
@@ -70,13 +83,13 @@ const DetailsBanner = () => {
                 <div className="info">
                   {data?.status && (
                     <div className="infoItem">
-                      <span className="text bold">Status:{""}</span>
+                      <span className="text bold">Status:</span>
                       <span className="text">{data?.status}</span>
                     </div>
                   )}
                   {data?.release_date && (
                     <div className="infoItem">
-                      <span className="text bold">Release Date:{""}</span>
+                      <span className="text bold">Release Date:</span>
                       <span className="text">
                         {dayjs(data.release_date).format("MMM D, YYYY")}
                       </span>
@@ -84,15 +97,47 @@ const DetailsBanner = () => {
                   )}
                   {data?.runtime && (
                     <div className="infoItem">
-                      <span className="text bold">Runtime:{""}</span>
+                      <span className="text bold">Runtime:</span>
                       <span className="text">
                         {toHoursAndMinutes(data.runtime)}
                       </span>
                     </div>
                   )}
                 </div>
+                {director?.length > 0 && (
+                  <div className="info">
+                    <span className="text bold">Director: </span>
+                    <span className="text">
+                      {director?.map((d, i) => (
+                        <span key={i}>
+                          {d.name}
+                          {director.length - 1 !== i && ", "}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                )}
+                {writer?.length > 0 && (
+                  <div className="info">
+                    <span className="text bold">Writer: </span>
+                    <span className="text">
+                      {writer?.map((d, i) => (
+                        <span key={i}>
+                          {d.name}
+                          {writer.length - 1 !== i && ", "}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
+            <VideoPopup
+              show={show}
+              setShow={setShow}
+              videoId={videoId}
+              setVideoId={setVideoId}
+            />
           </ContentWrapper>
         </>
       ) : (
