@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import SwitchBtn from "../../../components/switchbtn/SwitchBtn";
 import useFetch from "../../../hooks/useFetch";
-import Carousel from "../../../components/carousel/carousel";
+import Carousel from "../../../components/carousel/Carousel";
 
 function Latest() {
   const { data, loading } = useFetch(`/movie/upcoming`);
