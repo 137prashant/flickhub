@@ -9,7 +9,7 @@ import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import useFetch from "../../../hooks/useFetch";
 import Genres from "../../../components/genres/Genres";
 import CircleRating from "../../../components/circleRating/CircleRating";
-import Img from "../../../components/lazyLoadImage/Img";
+// import Img from "../../../components/lazyLoadImage/Img";
 import PosterFallback from "../../../assets/no-poster.png";
 import { Playbtn } from "../playbtn";
 import VideoPopup from "../../../components/videoPopup/VideoPopup";
@@ -42,19 +42,19 @@ const DetailsBanner = ({ video, crew }) => {
       {!loading ? (
         <>
           <div className="backdrop-img">
-            <Img src={url.poster + data?.backdrop_path} />
+            <img src={url.poster + data?.backdrop_path} />
           </div>
           <div className="opacity-layer"></div>
           <ContentWrapper>
             <div className="content">
               <div className="left">
                 {data?.backdrop_path ? (
-                  <Img
+                  <img
                     className="posterImg"
                     src={url.poster + data?.poster_path}
                   />
                 ) : (
-                  <Img className="posterImg" src={PosterFallback} />
+                  <img className="posterImg" src={PosterFallback} />
                 )}
               </div>
               <div className="right">

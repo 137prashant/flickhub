@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
-import Img from "../lazyLoadImage/Img";
 import PosterFallback from "../../assets/no-poster.png";
 
 import CircleRating from "../circleRating/CircleRating";
@@ -62,7 +61,7 @@ function Carousel({ data, loading, endpoint, title }) {
                     onClick={() => navigate(`/${mediaType}/${item.id}`)}
                   >
                     <div className="posterBlock">
-                      <Img src={posterUrl} />
+                      <img src={posterUrl} alt="poster img!"/>
 
                       <CircleRating rating={roundedRating} />
 
