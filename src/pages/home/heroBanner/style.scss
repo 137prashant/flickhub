@@ -18,16 +18,18 @@
         left: 0;
         opacity: 0.5;
         overflow: hidden;
-        .lazy-load-image-background {
-            width: 100%;
-            height: 100%;
+        // .lazy-load-image-background {
+        //     width: 100%;
+        //     height: 100%;
             img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
                 object-position: center;
+                width: 100%;
+                height: 100%;
 
-            }
+            // }
         }
     }
     .opacity-layer {
