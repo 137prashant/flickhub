@@ -36,59 +36,53 @@ function Carousel({ data, loading, endpoint, title }) {
   };
 
   return (
-    <div className="carousel">
-      <ContentWrapper>
-        {title && <div className="carouselTitle">{title}</div>}
-        <BsFillArrowLeftCircleFill
-          className="carouselLeftNav arrow"
-          onClick={() => navigation("left")}
-        />
-        <BsFillArrowRightCircleFill
-          className="carouselRightNav arrow"
-          onClick={() => navigation("right")}
-        />
-        {!loading ? (
-          <div className="carouselItems" ref={carouselContainer}>
-            {data?.map((item) => {
-              const posterUrl = item.poster_path
-                ? url.poster + item.poster_path
-                : PosterFallback;
-              return (
-                <div
-                  key={item.id}
-                  className="carouselItem"
-                  onClick={() =>
-                    navigate(
-                      `/${
-                        item.media_type == undefined
-                          ? endpoint
-                          : item.media_type
-                      }/${item.id}`
-                    )
-                  }
-                >
-                  <div className="posterBlock">
-                    <Img src={posterUrl} />
+      <div className="carousel">
+        <ContentWrapper>
+          {title && <div className="carouselTitle">{title}</div>}
+          <BsFillArrowLeftCircleFill
+            className="carouselLeftNav arrow"
+            onClick={() => navigation("left")}
+          />
+          <BsFillArrowRightCircleFill
+            className="carouselRightNav arrow"
+            onClick={() => navigation("right")}
+          />
+          {!loading ? (
+            <div className="carouselItems" ref={carouselContainer}>
+              {data?.map((item) => {
+                const posterUrl = item.poster_path
+                  ? url.poster + item.poster_path
+                  : PosterFallback;
+                const roundedRating = item.vote_average.toFixed(1);
+                const mediaType = item.media_type || endpoint;
+                return (
+                  <div
+                    key={item.id}
+                    className="carouselItem"
+                    onClick={() => navigate(`/${mediaType}/${item.id}`)}
+                  >
+                    <div className="posterBlock">
+                      <Img src={posterUrl} />
 
-                    <CircleRating rating={item.vote_average.toFixed(1)} />
+                      <CircleRating rating={roundedRating} />
 
-                    <Genres data={item.genre_ids.slice(0, 2)} />
+                      <Genres data={item.genre_ids.slice(0, 2)} />
+                    </div>
+                    <div className="textBlock">
+                      <span className="title">{item.title || item.name}</span>
+                      <span className="date">
+                        {dayjs(item.release_date).format("MMM D, YYYY")}
+                      </span>
+                    </div>
                   </div>
-                  <div className="textBlock">
-                    <span className="title">{item.title || item.name}</span>
-                    <span className="date">
-                      {dayjs(item.release_date).format("MMM D, YYYY")}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          ""
-        )}
-      </ContentWrapper>
-    </div>
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )}
+        </ContentWrapper>
+      </div>
   );
 }
 
