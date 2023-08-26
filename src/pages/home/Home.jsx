@@ -10,8 +10,8 @@ function Home() {
   return (
     <div className="homePage">
       <HeroBanner />
-      <Trending />
       <Popular />
+      <Trending />
       <TopRated />
       <Latest />
     </div>

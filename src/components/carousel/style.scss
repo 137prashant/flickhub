@@ -127,7 +127,15 @@
                 .date {
                     font-size: 14px;
                     opacity: 0.5;
+                    display: flex;
+                    justify-content: space-between;
+                    .like{
+                        margin-right: 18px;
+                        font-size: 25px;
+                        color: black;
+                    }
                 }
+                
             }
         }
     }

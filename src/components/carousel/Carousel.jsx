@@ -4,6 +4,8 @@ import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
+import { FcLikePlaceholder } from 'react-icons/fc';
+
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -71,6 +73,9 @@ function Carousel({ data, loading, endpoint, title }) {
                       <span className="title">{item.title || item.name}</span>
                       <span className="date">
                         {dayjs(item.release_date).format("MMM D, YYYY")}
+                       <div className="like">
+                       <FcLikePlaceholder  />
+                       </div>
                       </span>
                     </div>
                   </div>
