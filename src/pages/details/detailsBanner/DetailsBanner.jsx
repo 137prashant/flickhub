@@ -9,7 +9,6 @@ import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import useFetch from "../../../hooks/useFetch";
 import Genres from "../../../components/genres/Genres";
 import CircleRating from "../../../components/circleRating/CircleRating";
-// import Img from "../../../components/lazyLoadImage/Img";
 import PosterFallback from "../../../assets/no-poster.png";
 import { Playbtn } from "../playbtn";
 import VideoPopup from "../../../components/videoPopup/VideoPopup";
@@ -153,8 +152,7 @@ const DetailsBanner = ({ video, crew }) => {
               <div className="row skeleton"></div>
               <div className="row skeleton"></div>
               <div className="row skeleton"></div>
-              <div className="row skeleton"></div>
-              <div className="row skeleton"></div>
+            
             </div>
           </ContentWrapper>
         </div>

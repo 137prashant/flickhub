@@ -3,7 +3,7 @@ import "./style.scss";
 
 import { HiOutlineSearch } from "react-icons/hi";
 import { SlMenu } from "react-icons/sl";
-import { FcLike } from 'react-icons/fc';
+import { FcLike } from "react-icons/fc";
 import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -16,7 +16,7 @@ function Header() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState("");
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -43,6 +43,14 @@ function Header() {
       window.removeEventListener("scroll", controlNavbar);
     };
   });
+
+  const login = () => {
+    setIsLoggedIn(true);
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+  };
 
   const openSearch = () => {
     setMobileMenu(false);
@@ -78,19 +86,29 @@ function Header() {
         <div className="logo" onClick={() => navigate("/")}>
           <img src={logo} alt="logo" />
         </div>
+
         <ul className="menuItems">
-        <FcLike size={30} color="blue" />
+          <div className="like">
+            <FcLike />
+          </div>
           <li className="menuItem" onClick={() => navigationHandler("movie")}>
             Movies
           </li>
           <li className="menuItem" onClick={() => navigationHandler("tv")}>
             TV Show
           </li>
-          <li className="menuItem">
-            <HiOutlineSearch onClick={openSearch} />
-          </li>
+          {isLoggedIn ? (
+            <li className="menuItem" onClick={logout}>
+              Logout
+            </li>
+          ) : (
+            <li className="menuItem" onClick={login}>
+              Login
+            </li>
+          )}
         </ul>
         <div className="mobileMenuItems">
+          <FcLike />
           <HiOutlineSearch onClick={openSearch} />
           {mobileMenu ? (
             <VscChromeClose onClick={() => setMobileMenu(false)} />

@@ -27,6 +27,14 @@
         align-items: center;
         justify-content: space-between;
     }
+    .like{
+        display: none;
+        @include md {
+            display: flex;
+            font-size: 25px;
+            margin-right: 5px;
+        }
+    }
     .logo {
         cursor: pointer;
         img {
@@ -35,13 +43,17 @@
            
         }
     }
+    
     .menuItems {
         list-style-type: none;
         display: none;
         align-items: center;
         @include md {
             display: flex;
+         
         }
+      
+     
         .menuItem {
             height: 60px;
             display: flex;
@@ -53,6 +65,8 @@
             &.searchIcon {
                 margin-right: 0;
             }
+         
+            
             svg {
                 font-size: 18px;
             }
@@ -71,9 +85,10 @@
             display: none;
         }
         svg {
-            font-size: 18px;
+            font-size: 20px;
             color: white;
         }
+      
     }
 
     &.mobileView {
@@ -98,9 +113,11 @@
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
+              
                 &:last-child {
                     display: none;
                 }
+            
             }
         }
     }
@@ -112,6 +129,7 @@
         position: absolute;
         top: 60px;
         animation: mobileMenu 0.3s ease forwards;
+     
         .searchInput {
             display: flex;
             align-items: center;
