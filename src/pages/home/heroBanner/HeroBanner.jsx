@@ -19,8 +19,21 @@ function HeroBanner() {
     const bg =
       url.poster +
       data?.results?.[Math.floor(Math.random() * 20)]?.backdrop_path;
-    setBackground(bg);
+    if (bg && isValidURL(bg)) {
+      setBackground(bg);
+    } else {
+      setBackground("placeholder.jpg"); // Set a placeholder URL or empty string if the URL is not valid
+    }
   }, [data]);
+
+  const isValidURL = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
 
   const searchQueryHandler = () => {
     if (query.length > 0) {
@@ -51,10 +64,11 @@ function HeroBanner() {
                 if (e.key === "Enter") {
                   searchQueryHandler();
                 }
-              }}            />
+              }}
+            />
             <button
               onClick={() => {
-                searchQueryHandler(); 
+                searchQueryHandler();
               }}
             >
               Search

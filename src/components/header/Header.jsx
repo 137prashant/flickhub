@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import "./style.scss";
 
 import { HiOutlineSearch } from "react-icons/hi";
@@ -12,17 +13,30 @@ import logo from "../../assets/Flikhub-removebg-preview.png";
 
 function Header() {
   const [show, setShow] = useState("top");
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [mobileMenu, setMobileMenu] = useState(false);
   const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState("");
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [focusSearchInput, setFocusSearchInput] = useState(false);
+  const favCount = useSelector((state) => state.like.likeCount);
+  console.log(">>>>>>",favCount)
+
   const navigate = useNavigate();
   const location = useLocation();
+
+  const searchInputRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", controlNavbar);
+    return () => {
+      window.removeEventListener("scroll", controlNavbar);
+    };
+  });
 
   const controlNavbar = () => {
     if (window.scrollY > 200) {
@@ -37,28 +51,24 @@ function Header() {
     }
   };
 
+  const loginOut = () => {
+    setIsLoggedIn(!isLoggedIn);
+  };
+
   useEffect(() => {
-    window.addEventListener("scroll", controlNavbar);
-    return () => {
-      window.removeEventListener("scroll", controlNavbar);
-    };
-  });
-
-  const login = () => {
-    setIsLoggedIn(true);
-  };
-
-  const logout = () => {
-    setIsLoggedIn(false);
-  };
+    if (focusSearchInput && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [focusSearchInput]);
 
   const openSearch = () => {
     setMobileMenu(false);
     setShowSearch(true);
+    setFocusSearchInput(true);
   };
 
   const openMobileMenu = () => {
-    setMobileMenu(true);
+    setMobileMenu(!mobileMenu);
     setShowSearch(false);
   };
 
@@ -88,27 +98,29 @@ function Header() {
         </div>
 
         <ul className="menuItems">
-          <div className="like">
-            <FcLike />
+          <div className="heart">
+            <FcLike className="like" />
+            <li className="circle">{favCount}</li>
           </div>
+          <li className="menuItem">
+            <HiOutlineSearch onClick={openSearch} />
+          </li>
           <li className="menuItem" onClick={() => navigationHandler("movie")}>
             Movies
           </li>
           <li className="menuItem" onClick={() => navigationHandler("tv")}>
             TV Show
           </li>
-          {isLoggedIn ? (
-            <li className="menuItem" onClick={logout}>
-              Logout
-            </li>
-          ) : (
-            <li className="menuItem" onClick={login}>
-              Login
-            </li>
-          )}
+          <li className="menuItem" onClick={loginOut}>
+            {isLoggedIn ? "Logout" : "Login"}
+          </li>
+          <li className=""></li>
         </ul>
         <div className="mobileMenuItems">
-          <FcLike />
+          <div className="mobHeart">
+            <FcLike className="mobLike" />
+            <span className="mobCircle">0</span>
+          </div>
           <HiOutlineSearch onClick={openSearch} />
           {mobileMenu ? (
             <VscChromeClose onClick={() => setMobileMenu(false)} />
@@ -122,6 +134,7 @@ function Header() {
           <ContentWrapper>
             <div className="searchInput">
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder="Search for a movie or TV Show.."
                 onChange={(e) => setQuery(e.target.value)}

@@ -17,9 +17,7 @@
         left: 0;
         opacity: 0.4;
         overflow: hidden;
-        // .lazy-load-image-background {
-        //     width: 100%;
-        //     height: 100%;
+
             img {
                 width: 100%;
                 height: 100%;
@@ -28,7 +26,6 @@
                 width: 100%;
                 height: 100%;
             }
-        // }
     }
     .opacity-layer {
         width: 100%;
@@ -89,16 +86,24 @@
                 flex-flow: row wrap;
             }
             .overview {
-                margin-bottom: 25px;
+                display: flex;
+                margin-bottom: 10px;
+                
+                .like {
+                    font-size: 35px;
+                    margin-left: 20px;
+                    cursor: pointer;
+                }
                 .heading {
                     font-size: 24px;
                     margin-bottom: 10px;
                 }
-                .description {
-                    line-height: 24px;
-                    @include md {
-                        padding-right: 100px;
-                    }
+                
+            }
+            .description {
+                line-height: 24px;
+                @include md {
+                    padding-right: 100px;
                 }
             }
             .circleRating {
