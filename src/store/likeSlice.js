@@ -1,22 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const likeSlice = createSlice({
+export const likeSlice = createSlice({
   name: "like",
   initialState: {
     likeCount: 0,
-    likedItems: {},
   },
   reducers: {
     updateLikeCount: (state, action) => {
-      state.likeCount = action.payload + state.likeCount;
-    },
-    updateLikeItem: (state, action) => {
-      const { itemId, isLiked } = action.payload;
-      state.likedItems[itemId] = isLiked;
+      state.likeCount = action.payload;
     },
   },
 });
 
-export const { updateLikeCount, updateLikeItem } = likeSlice.actions;
+export const { updateLikeCount } = likeSlice.actions;
 
 export default likeSlice.reducer;

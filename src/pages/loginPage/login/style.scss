@@ -1,0 +1,82 @@
+@import "../../../mixins.scss" ;
+
+.login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: var(--black);            
+      
+        .main {
+          width: 70%;
+          height: 500px;
+          padding: 4rem;
+          background-color: #fff;
+          border-radius: 0.55rem;
+          @include md {
+            width: 30%;
+            padding: 5rem;
+          }
+      form {
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+  
+        .container {
+          font-size: 18px;
+          margin-bottom: 2rem;
+        }
+  
+        label {
+        margin: 8px;
+        }
+  
+        .control {
+          width: 100%;
+          padding: .65rem .5rem;
+          border: 1px solid #ced4da;
+          border-radius: 0.45rem;
+          transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+          &:focus {
+            border-color: #007bff;
+            outline: 0;
+            box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.25);
+          }
+        }
+  
+        .btn {
+          display: flex;
+          flex-direction: column;
+          margin-top: -20px;
+          padding: 0.85rem .5rem; 
+        }
+  
+        .btn-inside {
+            cursor: pointer;
+          background-color: #007bff;
+          border-radius: .45rem;
+          font-size: 23px;
+          border-color: white;
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+  
+        .link {
+            margin-top: 10px;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          font-size: 18px;
+          p {
+            margin-top: 10px;
+            font-size: 20px;
+          }
+        }
+      }
+
+    }
+}
+
+  

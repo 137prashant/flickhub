@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
 import "./style.scss";
 
 import { HiOutlineSearch } from "react-icons/hi";
@@ -10,25 +9,23 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/Flikhub-removebg-preview.png";
+import { useSelector } from "react-redux";
 
-function Header() {
+function Header({ isAuthenticated }) {
   const [show, setShow] = useState("top");
   const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState("");
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [focusSearchInput, setFocusSearchInput] = useState(false);
-  const favCount = useSelector((state) => state.like.likeCount);
-  console.log(">>>>>>",favCount)
-
+  const {likeCount} = useSelector((state)=> state.like)
   const navigate = useNavigate();
   const location = useLocation();
-
   const searchInputRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setShowSearch(false);
   }, [location]);
 
   useEffect(() => {
@@ -52,7 +49,8 @@ function Header() {
   };
 
   const loginOut = () => {
-    setIsLoggedIn(!isLoggedIn);
+    window.location.assign("/login");
+    document.cookie = `token=; path=/`;
   };
 
   useEffect(() => {
@@ -99,8 +97,8 @@ function Header() {
 
         <ul className="menuItems">
           <div className="heart">
-            <FcLike className="like" />
-            <li className="circle">{favCount}</li>
+            <FcLike className="like" onClick={() => navigate("/like")} />
+            <li className="circle">{likeCount}</li>
           </div>
           <li className="menuItem">
             <HiOutlineSearch onClick={openSearch} />
@@ -112,16 +110,15 @@ function Header() {
             TV Show
           </li>
           <li className="menuItem" onClick={loginOut}>
-            {isLoggedIn ? "Logout" : "Login"}
+            {isAuthenticated ? "Logout" : "Login"}
           </li>
           <li className=""></li>
         </ul>
         <div className="mobileMenuItems">
           <div className="mobHeart">
-            <FcLike className="mobLike" />
-            <span className="mobCircle">0</span>
+            <FcLike className="mobLike" onClick={() => navigate("/like")} />
+            <span className="mobCircle">{likeCount}</span>
           </div>
-          <HiOutlineSearch onClick={openSearch} />
           {mobileMenu ? (
             <VscChromeClose onClick={() => setMobileMenu(false)} />
           ) : (

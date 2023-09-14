@@ -22,7 +22,7 @@ function HeroBanner() {
     if (bg && isValidURL(bg)) {
       setBackground(bg);
     } else {
-      setBackground("placeholder.jpg"); // Set a placeholder URL or empty string if the URL is not valid
+      setBackground("placeholder.jpg"); 
     }
   }, [data]);
 

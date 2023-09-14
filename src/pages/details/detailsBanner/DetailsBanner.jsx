@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { useDispatch } from "react-redux";
-import { updateLikeCount, updateLikeItem } from "../../../store/likeSlice";
 import "./style.scss";
 import { FcLikePlaceholder, FcLike } from "react-icons/fc";
 import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
@@ -13,19 +11,19 @@ import CircleRating from "../../../components/circleRating/CircleRating";
 import PosterFallback from "../../../assets/no-poster.png";
 import { Playbtn } from "../playbtn";
 import VideoPopup from "../../../components/videoPopup/VideoPopup";
+import axios from "axios";
+import { backendToken, fetchApi } from "../../../utils/backendApi";
+import { updateLikeCount } from "../../../store/likeSlice";
 
 const DetailsBanner = ({ video, crew }) => {
+  const dispatch = useDispatch();
+
   const { mediaType, id } = useParams();
   const { data, loading } = useFetch(`/${mediaType}/${id}`);
   const [show, setShow] = useState(false);
   const [videoId, setVideoId] = useState(null);
   const { url } = useSelector((state) => state.home);
   const [likes, setLikes] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const dispatch = useDispatch();
-  const { likedItems } = useSelector((state) => state.like);
-  console.log("likedItems", likedItems);
-
   const _genres = data?.genres?.map((g) => g.id);
 
   const director = crew?.filter((f) => f.job === "Director");
@@ -34,18 +32,83 @@ const DetailsBanner = ({ video, crew }) => {
     (f) => f.job === "Screenplay" || f.job === "Story" || f.job === "Writter"
   );
 
+  useEffect(() => {
+    fetchMovieLike();
+  }, [data, likes]);
+
+  const requestData = {
+    movieId: id,
+    movieType: mediaType,
+  };
+
   const toHoursAndMinutes = (totalMinutes) => {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     return `${hours}h${minutes > 0 ? ` ${minutes}m` : ""}`;
   };
 
-  const isLiked = likedItems[data?.id] || false;
+  const saveMovie = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5001/users/savemovie",
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${backendToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setLikes(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchMovieLike = () => {
+    fetchApi("/getmovie")
+      .then((res) => {
+        dispatch(updateLikeCount(res.likedMovie.length));
+        const movieIsLiked = res.likedMovie.some((likedMovie) => {
+          return (
+            likedMovie.movieId === id && likedMovie.movieType === mediaType
+          );
+        });
+        if (movieIsLiked === true) {
+          setLikes(true);
+        } else {
+          setLikes(false);
+        }
+      })
+      .catch((error) => {
+        console.log("fetchMovieData", error);
+      });
+  };
+
+  const deleteMovie = async () => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:5001/users/deletemovie",
+        {
+          data: requestData,
+          headers: {
+            Authorization: `Bearer ${backendToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setLikes(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const fav = () => {
-    console.log("isliked", isLiked);
-    setLikes(!likes);
-    dispatch(updateLikeItem({ itemId: data?.id, isLiked: !isLiked }));
-    dispatch(updateLikeCount(isLiked ? likeCount - 1 : likeCount + 1));
+    if (likes) {
+      deleteMovie();
+    } else {
+      saveMovie();
+    }
   };
 
   return (
@@ -95,7 +158,7 @@ const DetailsBanner = ({ video, crew }) => {
                     <div className="overview">
                       <div className="heading">Overview</div>
                       <div className="like" onClick={fav}>
-                        {isLiked ? <FcLike /> : <FcLikePlaceholder />}
+                        {likes ? <FcLike /> : <FcLikePlaceholder />}
                       </div>
                     </div>
                     <div className="description">{data?.overview}</div>
