@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:5001/users";
+const baseUrl = "https://api-flickhub.onrender.com/users";
 
 function getCookie(cookieName) {
   const cookies = document.cookie.split(";");

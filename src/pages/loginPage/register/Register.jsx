@@ -18,7 +18,7 @@ const Register = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:5001/users/register",
+        "https://api-flickhub.onrender.com/users/register",
         {
           username,
           email,

@@ -12,7 +12,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5001/users/login", {
+      const response = await axios.post("https://api-flickhub.onrender.com/users/login", {
         email,
         password,
       });
@@ -23,7 +23,6 @@ const Login = () => {
         return;
       }
       document.cookie = `token=${data.accessToken}; path=/`;
-      // navigate("/");
       window.location.assign('/');
     } catch (error) {
       alert("Error during registration");

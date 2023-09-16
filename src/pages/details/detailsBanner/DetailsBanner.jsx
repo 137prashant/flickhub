@@ -50,7 +50,7 @@ const DetailsBanner = ({ video, crew }) => {
   const saveMovie = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5001/users/savemovie",
+        "https://api-flickhub.onrender.com/users/savemovie",
         requestData,
         {
           headers: {
@@ -88,7 +88,7 @@ const DetailsBanner = ({ video, crew }) => {
   const deleteMovie = async () => {
     try {
       const response = await axios.delete(
-        "http://localhost:5001/users/deletemovie",
+        "https://api-flickhub.onrender.com/users/deletemovie",
         {
           data: requestData,
           headers: {
