@@ -91,9 +91,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Header isAuthenticated={isAuthenticated}  />
+        <Header isAuthenticated={isAuthenticated} />
         <Routes>
-          {/* {isAuthenticated ? ( */}
+          {isAuthenticated ? (
             <>
               <Route path="/" element={<Home />} />
               <Route path="/like" element={<Like />} />
@@ -101,14 +101,14 @@ function App() {
               <Route path="/search/:query" element={<SearchResult />} />
               <Route path="/explore/:mediaType" element={<Explore />} />
               <Route path="*" element={<PageNotFound />} />
-            {/* </> */}
-          {/* ) : ( */}
-            {/* <> */}
+            </>
+          ) : (
+            <>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />
             </>
-          {/* )} */}
+          )}
         </Routes>
         <Footer />
       </BrowserRouter>
