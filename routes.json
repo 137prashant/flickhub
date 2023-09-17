@@ -1,0 +1,11 @@
+{
+    "staticPublishPath": "build",
+    "staticPublishDir": "public",
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
+      }
+    ]
+  }
+  
